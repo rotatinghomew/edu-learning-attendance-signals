@@ -1,14 +1,4 @@
-import csv
-from pathlib import Path
+"""兼容层：早期 CSV 记录读取，实际实现见 legacy.read_records。"""
+from .legacy import read_records
 
-
-def read_records(path):
-    with Path(path).open(encoding="utf-8", newline="") as stream:
-        rows = list(csv.DictReader(stream))
-    if not rows:
-        return []
-    required = {"period", "group", "count", "value"}
-    missing = required - set(rows[0])
-    if missing:
-        raise ValueError(f"缺少字段: {', '.join(sorted(missing))}")
-    return rows
+__all__ = ["read_records"]
